@@ -47,7 +47,7 @@ async def create_room(name: str, user_id: int) -> int:
     Returns:
         The created room ID, or -1 if failed.
     """
-    if user_id not in user_list:
+    if user_id < 0 or user_id >= len(user_list):
         logger.exception("An unregistered user (ID: %d) tries to create a room", user_id)
         return -1
     room_list.append(RoomInfo(name=name, user_id=user_id))
