@@ -1,6 +1,9 @@
 """Backend server for Ricochet game."""
 
+import logging
 from fastapi import FastAPI
+
+logger = logging.getLogger(__name__)
 
 user_list: list[str] = []
 
