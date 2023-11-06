@@ -1,11 +1,25 @@
 """Backend server for Ricochet game."""
 
+import dataclasses
 import logging
 from fastapi import FastAPI
 
 logger = logging.getLogger(__name__)
 
+@dataclasses.dataclass
+class RoomInfo:
+    """Container of room information.
+    
+    Fields:
+        name: The room name.
+        user_id: The room owner user ID.
+    """
+    name: str
+    user_id: int
+
+
 user_list: list[str] = []
+room_list: list[RoomInfo] = []
 
 app = FastAPI()
 
