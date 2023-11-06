@@ -12,10 +12,10 @@ class RoomInfo:
     
     Fields:
         name: The room name.
-        user_id: The room owner user ID.
+        owner_id: The room owner user ID.
     """
     name: str
-    user_id: int
+    owner_id: int
 
 
 user_list: list[str] = []
@@ -50,5 +50,5 @@ async def create_room(name: str, user_id: int) -> int:
     if user_id < 0 or user_id >= len(user_list):
         logger.exception("An unregistered user (ID: %d) tries to create a room", user_id)
         return -1
-    room_list.append(RoomInfo(name=name, user_id=user_id))
+    room_list.append(RoomInfo(name=name, owner_id=user_id))
     return len(room_list) - 1
