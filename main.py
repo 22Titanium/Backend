@@ -6,7 +6,6 @@ user_list: list[str] = []
 
 app = FastAPI()
 
-
 @app.get("/user/me/")
 async def create_user(name: str) -> int:
     """Creates a new user with the given name.
