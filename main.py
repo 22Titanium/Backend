@@ -1,6 +1,7 @@
 """Backend server for Ricochet game."""
 
 import asyncio
+import enum
 import dataclasses
 import logging
 import websockets
@@ -16,9 +17,19 @@ class RoomInfo:
     Fields:
         name: The room name.
         owner_id: The room owner user ID.
+        num_players: The number of players.
+        status: The current room status.
     """
+
+    class Status(enum.IntEnum):
+        """Room status."""
+        WAITING = 0
+        RUNNING = 1
+
     name: str
     owner_id: int
+    num_players: int
+    status: Status
 
 
 user_list: list[str] = []
