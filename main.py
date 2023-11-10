@@ -10,6 +10,8 @@ from fastapi import FastAPI, WebSocket
 
 logger = logging.getLogger(__name__)
 
+room_list_modified = asyncio.Event()
+
 @dataclasses.dataclass
 class RoomInfo:
     """Container of room information.
@@ -36,6 +38,18 @@ user_list: list[str] = []
 room_list: list[RoomInfo] = []
 
 app = FastAPI()
+
+def notify_modified(modified: asyncio.Event):
+    """Sets and clears the modified event.
+    
+    All the coroutines that are waiting for the modified event will be awakened.
+
+    Args:
+        modified: The event to notify a modification.
+    """
+    modified.set()
+    modified.clear()
+
 
 @app.get("/user/me/")
 async def create_user(name: str) -> int:
@@ -65,6 +79,7 @@ async def create_room(name: str, user_id: int) -> int:
         logger.exception("An unregistered user (ID: %d) tries to create a room", user_id)
         return -1
     room_list.append(RoomInfo(name=name, owner_id=user_id))
+    notify_modified(room_list_modified)
     return len(room_list) - 1
 
 
@@ -73,8 +88,8 @@ async def get_room_list(websocket: WebSocket):
     await websocket.accept()
     try:
         while True:
+            await room_list_modified.wait()
             await websocket.send_text("Hello")
-            await asyncio.sleep(2)
     except websockets.exceptions.ConnectionClosedError:
         logger.info("The connection for sending the room list is closed.")
     except websockets.exceptions:
