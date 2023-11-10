@@ -28,8 +28,8 @@ class RoomInfo:
 
     name: str
     owner_id: int
-    num_players: int
-    status: Status
+    num_players: int = 1
+    status: Status = Status.WAITING
 
 
 user_list: list[str] = []
