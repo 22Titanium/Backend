@@ -1,11 +1,12 @@
 """Backend server for Ricochet game."""
 
 import asyncio
-import enum
 import dataclasses
+import enum
+import json
 import logging
-import websockets
 
+import websockets
 from fastapi import FastAPI, WebSocket
 
 logger = logging.getLogger(__name__)
@@ -89,7 +90,13 @@ async def get_room_list(websocket: WebSocket):
     try:
         while True:
             await room_list_modified.wait()
-            await websocket.send_text("Hello")
+            data = [{
+                "name": room.name,
+                "owner": user_list[room.owner_id],
+                "num_players": room.num_players,
+                "status": room.status.value
+            } for room in room_list]
+            await websocket.send_json(data)
     except websockets.exceptions.ConnectionClosedError:
         logger.info("The connection for sending the room list is closed.")
     except websockets.exceptions:
