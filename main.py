@@ -3,7 +3,6 @@
 import asyncio
 import dataclasses
 import enum
-import json
 import logging
 
 import websockets
@@ -110,5 +109,5 @@ async def get_room_list(websocket: WebSocket):
             await websocket.send_json(data)
     except websockets.exceptions.ConnectionClosedError:
         logger.info("The connection for sending the room list is closed.")
-    except websockets.exceptions:
+    except websockets.exceptions.WebSocketException:
         logger.exception("Failed to send the room list.")
