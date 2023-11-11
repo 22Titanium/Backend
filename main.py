@@ -86,6 +86,17 @@ async def create_room(name: str, user_id: int) -> int:
 
 @app.websocket("/room/list/")
 async def get_room_list(websocket: WebSocket):
+    """Sends the room list through a web socket.
+    
+    The room list is a list with each room info. An info is a dictionary with four keys:
+      "name": The room name.
+      "owner": The room owner name.
+      "num_players": The number of players of the room.
+      "status": The room status. See RoomInfo.Status.
+    
+    Args:
+        websocket: The web socket object. 
+    """
     await websocket.accept()
     try:
         while True:
