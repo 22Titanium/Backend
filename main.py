@@ -19,7 +19,7 @@ class RoomInfo:
     Fields:
         name: The room name.
         owner_id: The room owner user ID.
-        num_players: The number of players.
+        player_list: The player list with each user ID.
         status: The current room status.
     """
 
@@ -30,7 +30,7 @@ class RoomInfo:
 
     name: str
     owner_id: int
-    num_players: int = 1
+    player_list: list[int] = dataclasses.field(default_factory=list)
     status: Status = Status.WAITING
 
 
