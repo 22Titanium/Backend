@@ -83,7 +83,7 @@ async def create_room(name: str, user_id: int) -> int:
         The created room ID, or -1 if failed.
     """
     if user_id < 0 or user_id >= len(user_list):
-        logger.exception("An unregistered user (ID: %d) tries to create a room", user_id)
+        logger.exception("An unregistered user (ID: %d) tries to create a room.", user_id)
         return -1
     room_list.append(RoomInfo(name=name, owner_id=user_id))
     notify_modified(room_list_modified)
@@ -132,3 +132,11 @@ async def enter_room(room_id: int, user_id: int) -> bool:
         False if either the room ID or the user ID is invalid or the game is already running.
         Otherwise, True.
     """
+    if room_id < 0 or room_id >= len(room_list):
+        logger.exception("There is no room (ID: %d).", room_id)
+        return False
+    if user_id < 0 or user_id >= len(user_list):
+        logger.exception("An unregistered user (ID: %d) tries to enter a room.", user_id)
+        return False
+    room = room_list[room_id]
+    return True
