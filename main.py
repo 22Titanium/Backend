@@ -110,7 +110,7 @@ async def get_room_list(websocket: WebSocket):
             data = [{
                 "name": room.name,
                 "owner": user_list[room.owner_id],
-                "num_players": room.num_players,
+                "num_players": len(room.player_list),
                 "status": room.status.value
             } for room in room_list]
             await websocket.send_json(data)
