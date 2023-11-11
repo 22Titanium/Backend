@@ -120,7 +120,7 @@ async def get_room_list(websocket: WebSocket):
         logger.exception("Failed to send the room list.")
 
 
-@app.post("/room/enter/")
+@app.post("/room/{room_id}/enter/")
 async def enter_room(room_id: int, user_id: int) -> bool:
     """Enters a specific room.
     
