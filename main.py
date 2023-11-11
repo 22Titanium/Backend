@@ -139,4 +139,7 @@ async def enter_room(room_id: int, user_id: int) -> bool:
         logger.exception("An unregistered user (ID: %d) tries to enter a room.", user_id)
         return False
     room = room_list[room_id]
+    if room.status == RoomInfo.Status.RUNNING:
+        logger.exception("The room (ID: %d) is already running.", room_id)
+        return False
     return True
