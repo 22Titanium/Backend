@@ -33,6 +33,13 @@ class RoomInfo:
     player_list: list[int] = dataclasses.field(default_factory=list)
     status: Status = Status.WAITING
 
+    def __post_init__(self):
+        """Overridden.
+        
+        It adds the owner to the player list.
+        """
+        self.player_list.append(self.owner_id)
+
 
 user_list: list[str] = []
 room_list: list[RoomInfo] = []
