@@ -142,4 +142,6 @@ async def enter_room(room_id: int, user_id: int) -> bool:
     if room.status == RoomInfo.Status.RUNNING:
         logger.exception("The room (ID: %d) is already running.", room_id)
         return False
+    room.player_list.append(user_id)
+    notify_modified(room_list_modified)
     return True
