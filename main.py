@@ -118,3 +118,17 @@ async def get_room_list(websocket: WebSocket):
         logger.info("The connection for sending the room list is closed.")
     except websockets.exceptions.WebSocketException:
         logger.exception("Failed to send the room list.")
+
+
+@app.post("/room/enter/")
+async def enter_room(room_id: int, user_id: int) -> bool:
+    """Enters a specific room.
+    
+    Args:
+        room_id: The room ID.
+        user_id: The user ID.
+
+    Returns:
+        False if either the room ID or the user ID is invalid or the game is already running.
+        Otherwise, True.
+    """
